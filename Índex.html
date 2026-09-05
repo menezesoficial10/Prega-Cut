@@ -3,3380 +3,1532 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>PREGA.CUT — Cortes inteligentes de pregações</title>
-
-<meta name="description" content="Transforme pregações em cortes curtos com IA.">
-
+<title>PREGA.CUT</title>
 <style>
-:root{
-    --bg:#050608;
-    --bg2:#090b10;
-    --card:#101218;
-    --card2:#151821;
-    --line:#242833;
-    --text:#f5f7fa;
-    --muted:#8f96a3;
-    --blue:#2f80ff;
-    --blue2:#1769e0;
-    --green:#35d07f;
-    --red:#ff5c68;
-    --yellow:#f6c453;
-    --radius:18px;
-}
-
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
 }
-
-html{
-    scroll-behavior:smooth;
-}
-
 body{
-    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#07080b;
+    color:#fff;
 }
-
-button,
-input,
-select,
-textarea{
-    font:inherit;
-}
-
 button{
+    font-family:inherit;
     cursor:pointer;
 }
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* =========================
-   LANDING
-========================= */
-
-.landing{
-    min-height:100vh;
-    background:
-        radial-gradient(circle at 50% -10%,rgba(47,128,255,.18),transparent 38%),
-        var(--bg);
-}
-
-.topbar{
-    height:74px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 6%;
-    border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.logo{
-    font-weight:900;
-    font-size:21px;
-    letter-spacing:-.8px;
-}
-
-.logo span{
-    color:var(--blue);
-}
-
-.top-actions{
-    display:flex;
-    gap:10px;
-}
-
-.hero{
-    max-width:1150px;
-    margin:auto;
-    min-height:650px;
-    padding:90px 24px;
-    display:grid;
-    grid-template-columns:1.05fr .95fr;
-    align-items:center;
-    gap:70px;
-}
-
-.badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid rgba(47,128,255,.3);
-    background:rgba(47,128,255,.08);
-    color:#83b5ff;
-    border-radius:999px;
-    padding:8px 13px;
-    font-size:12px;
-    font-weight:700;
-    margin-bottom:22px;
-}
-
-.hero h1{
-    font-size:clamp(42px,6vw,72px);
-    line-height:.98;
-    letter-spacing:-4px;
-    max-width:700px;
-}
-
-.hero h1 span{
-    color:var(--blue);
-}
-
-.hero p{
-    margin-top:24px;
-    color:var(--muted);
-    font-size:18px;
-    line-height:1.7;
-    max-width:620px;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:12px;
-    margin-top:32px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    border:0;
-    border-radius:12px;
-    padding:13px 19px;
-    font-weight:800;
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-}
-
-.btn-primary{
-    background:var(--blue);
-    color:white;
-}
-
-.btn-primary:hover{
-    background:var(--blue2);
-}
-
-.btn-secondary{
-    background:#151820;
-    color:white;
-    border:1px solid var(--line);
-}
-
-.btn-danger{
-    background:rgba(255,92,104,.12);
-    color:#ff858e;
-    border:1px solid rgba(255,92,104,.2);
-}
-
-.preview-window{
-    background:#090b10;
-    border:1px solid var(--line);
-    border-radius:24px;
-    padding:16px;
-    box-shadow:0 30px 100px rgba(0,0,0,.5);
-}
-
-.preview-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:4px 4px 14px;
-    color:var(--muted);
-    font-size:12px;
-}
-
-.preview-video{
-    aspect-ratio:9/16;
-    max-height:510px;
-    margin:auto;
-    width:min(100%,290px);
-    border-radius:15px;
-    overflow:hidden;
-    position:relative;
-    background:
-        linear-gradient(160deg,#151b2a,#050608);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.fake-preacher{
-    width:70%;
-    height:75%;
-    border-radius:50% 50% 12% 12%;
-    background:
-        radial-gradient(circle at 50% 17%,#bd8b6a 0 10%,transparent 10.5%),
-        linear-gradient(#151821 0 48%,#0b0d12 48%);
-    opacity:.9;
-}
-
-.preview-caption{
-    position:absolute;
-    bottom:48px;
-    width:90%;
-    text-align:center;
-    font-size:19px;
-    font-weight:900;
-    text-shadow:0 3px 10px #000;
-}
-
-.preview-instagram{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    font-size:11px;
-    font-weight:800;
-    background:rgba(0,0,0,.45);
-    padding:5px 9px;
-    border-radius:6px;
-}
-
-.features{
-    max-width:1150px;
-    margin:auto;
-    padding:40px 24px 100px;
-}
-
-.section-title{
-    text-align:center;
-    font-size:36px;
-    letter-spacing:-1.5px;
-}
-
-.section-subtitle{
-    text-align:center;
-    color:var(--muted);
-    margin-top:12px;
-}
-
-.feature-grid{
-    margin-top:45px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:16px;
-}
-
-.feature-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:25px;
-}
-
-.feature-icon{
-    width:40px;
-    height:40px;
-    display:grid;
-    place-items:center;
-    background:rgba(47,128,255,.12);
-    color:#76aaff;
-    border-radius:11px;
-    margin-bottom:20px;
-}
-
-.feature-card h3{
-    margin-bottom:8px;
-}
-
-.feature-card p{
-    color:var(--muted);
-    line-height:1.6;
-    font-size:14px;
-}
-
-/* =========================
-   APP
-========================= */
-
 .app{
-    display:none;
+    display:flex;
     min-height:100vh;
 }
-
+/* SIDEBAR */
 .sidebar{
+    width:240px;
+    min-height:100vh;
+    background:#0d0f14;
+    border-right:1px solid #222630;
+    padding:25px 15px;
     position:fixed;
     left:0;
     top:0;
     bottom:0;
-    width:245px;
-    background:#080a0e;
-    border-right:1px solid var(--line);
-    padding:22px 14px;
-    z-index:20;
 }
-
-.sidebar-logo{
-    padding:5px 12px 30px;
+.logo{
+    font-size:23px;
+    font-weight:900;
+    padding:5px 12px 35px;
 }
-
-.nav-label{
-    color:#626a78;
+.logo span{
+    color:#347cff;
+}
+.menu-title{
+    color:#626977;
     font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:1.2px;
-    padding:0 12px 9px;
+    font-weight:bold;
+    letter-spacing:1px;
+    padding:0 12px 10px;
 }
-
-.nav-item{
-    width:100%;
+.menu{
     display:flex;
-    align-items:center;
-    gap:12px;
+    flex-direction:column;
+    gap:4px;
+}
+.menu button{
+    width:100%;
+    background:none;
     border:0;
-    background:transparent;
-    color:#8e95a2;
-    padding:12px;
-    border-radius:10px;
-    margin-bottom:3px;
+    color:#9298a4;
     text-align:left;
+    padding:13px 12px;
+    border-radius:9px;
+    font-size:14px;
 }
-
-.nav-item:hover,
-.nav-item.active{
-    background:#131720;
-    color:white;
+.menu button:hover,
+.menu button.active{
+    background:#171a22;
+    color:#fff;
 }
-
-.nav-icon{
-    width:20px;
-    text-align:center;
+.menu-icon{
+    display:inline-block;
+    width:25px;
 }
-
-.sidebar-bottom{
-    position:absolute;
-    left:14px;
-    right:14px;
-    bottom:18px;
-}
-
+/* MAIN */
 .main{
-    margin-left:245px;
+    margin-left:240px;
+    width:calc(100% - 240px);
     min-height:100vh;
 }
-
-.app-topbar{
+.topbar{
     height:70px;
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid #222630;
     display:flex;
-    align-items:center;
     justify-content:flex-end;
-    padding:0 28px;
-    background:rgba(5,6,8,.8);
+    align-items:center;
+    padding:0 30px;
 }
-
-.user-chip{
+.user{
     display:flex;
     align-items:center;
     gap:10px;
-    color:#ddd;
     font-size:13px;
 }
-
 .avatar{
-    width:34px;
-    height:34px;
+    width:36px;
+    height:36px;
     border-radius:50%;
-    background:var(--blue);
-    display:grid;
-    place-items:center;
-    font-weight:900;
+    background:#347cff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
 }
-
+/* PAGES */
 .page{
-    padding:32px;
+    padding:35px;
     max-width:1400px;
     margin:auto;
 }
-
-.page-head{
+.page-header{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:20px;
+    align-items:center;
     margin-bottom:30px;
 }
-
-.page-head h2{
-    font-size:29px;
-    letter-spacing:-1px;
+.page-header h1{
+    font-size:30px;
 }
-
-.page-head p{
-    color:var(--muted);
-    margin-top:6px;
-    font-size:14px;
+.page-header p{
+    color:#858c99;
+    margin-top:7px;
 }
-
-/* =========================
-   DASHBOARD
-========================= */
-
+/* BUTTONS */
+.btn{
+    border:0;
+    border-radius:9px;
+    padding:13px 18px;
+    font-weight:bold;
+}
+.primary{
+    background:#347cff;
+    color:white;
+}
+.primary:hover{
+    background:#2269e5;
+}
+.secondary{
+    background:#171a21;
+    color:#fff;
+    border:1px solid #282d38;
+}
+/* DASHBOARD */
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
-
 .stat{
-    background:var(--card);
-    border:1px solid var(--line);
+    background:#101218;
+    border:1px solid #242832;
     border-radius:15px;
-    padding:21px;
+    padding:22px;
 }
-
 .stat small{
-    color:var(--muted);
+    color:#858c99;
 }
-
 .stat strong{
     display:block;
-    margin-top:8px;
-    font-size:29px;
+    font-size:30px;
+    margin-top:10px;
 }
-
-.dashboard-grid{
+.grid{
     display:grid;
-    grid-template-columns:1.5fr .8fr;
+    grid-template-columns:1.5fr 1fr;
     gap:18px;
     margin-top:20px;
 }
-
-.panel{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
+.card{
+    background:#101218;
+    border:1px solid #242832;
+    border-radius:16px;
     padding:22px;
 }
-
-.panel-title{
-    font-size:16px;
-    font-weight:800;
-    margin-bottom:17px;
+.card h3{
+    margin-bottom:20px;
 }
-
-.sermon-row{
+.sermon{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:15px;
-    padding:16px 0;
-    border-bottom:1px solid #1e222b;
+    align-items:center;
+    padding:17px 0;
+    border-bottom:1px solid #222630;
 }
-
-.sermon-row:last-child{
+.sermon:last-child{
     border-bottom:0;
 }
-
-.sermon-info strong{
+.sermon strong{
     display:block;
-    margin-bottom:5px;
 }
-
-.sermon-info span{
-    color:var(--muted);
-    font-size:12px;
+.sermon small{
+    color:#747c89;
 }
-
 .status{
-    display:inline-flex;
-    padding:5px 8px;
+    color:#38d27d;
+    background:rgba(56,210,125,.1);
+    padding:6px 9px;
     border-radius:6px;
     font-size:10px;
-    font-weight:800;
+    font-weight:bold;
 }
-
-.status.done{
-    background:rgba(53,208,127,.1);
-    color:var(--green);
+/* NEW SERMON */
+.source-tabs{
+    display:flex;
+    gap:5px;
+    border-bottom:1px solid #252a34;
+    margin-bottom:25px;
 }
-
-.status.processing{
-    background:rgba(246,196,83,.1);
-    color:var(--yellow);
+.source-tabs button{
+    border:0;
+    background:none;
+    color:#858c99;
+    padding:13px 17px;
+    border-bottom:2px solid transparent;
 }
-
-/* =========================
-   FORMS
-========================= */
-
+.source-tabs button.active{
+    color:#fff;
+    border-color:#347cff;
+}
+.upload{
+    border:1px dashed #3b4250;
+    background:#0a0c10;
+    min-height:220px;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:25px;
+}
+.upload-icon{
+    font-size:35px;
+    margin-bottom:12px;
+}
+.upload p{
+    color:#858c99;
+    margin:8px 0 18px;
+    font-size:13px;
+}
 .form-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:18px;
+    margin-top:25px;
 }
-
 .form-group{
     margin-bottom:18px;
 }
-
 .form-group.full{
     grid-column:1/-1;
 }
-
-.form-label{
+label{
     display:block;
     font-size:12px;
-    font-weight:800;
+    font-weight:bold;
     margin-bottom:8px;
 }
-
-.input,
-.select,
-.textarea{
+input,
+select{
     width:100%;
-    background:#090b10;
-    border:1px solid var(--line);
+    background:#090b0f;
     color:white;
-    border-radius:10px;
+    border:1px solid #292e39;
+    border-radius:9px;
     padding:13px;
     outline:none;
 }
-
-.input:focus,
-.select:focus,
-.textarea:focus{
-    border-color:var(--blue);
+input:focus,
+select:focus{
+    border-color:#347cff;
 }
-
-.upload-box{
-    min-height:210px;
-    border:1px dashed #38404e;
-    border-radius:16px;
+.options{
+    margin-top:20px;
+    background:#0b0d12;
+    border:1px solid #242832;
+    border-radius:13px;
+    padding:20px;
+}
+.check{
     display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:25px;
-    background:#090b10;
-    transition:.2s;
-}
-
-.upload-box.drag{
-    border-color:var(--blue);
-    background:rgba(47,128,255,.05);
-}
-
-.upload-icon{
-    width:50px;
-    height:50px;
-    border-radius:14px;
-    display:grid;
-    place-items:center;
-    background:#141923;
-    margin-bottom:13px;
-    font-size:20px;
-}
-
-.upload-box p{
-    color:var(--muted);
-    font-size:13px;
-    margin:7px 0 15px;
-}
-
-.or{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    color:#626977;
-    font-size:11px;
-    margin:18px 0;
-}
-
-.or:before,
-.or:after{
-    content:"";
-    height:1px;
-    background:var(--line);
-    flex:1;
-}
-
-.check-row{
-    display:flex;
-    align-items:flex-start;
     gap:9px;
+    align-items:flex-start;
     color:#aaa;
     font-size:13px;
-    line-height:1.5;
+    margin-top:13px;
 }
-
-.check-row input{
-    margin-top:3px;
+.check input{
+    width:auto;
+    margin-top:2px;
 }
-
-/* =========================
-   TABS
-========================= */
-
-.tabs{
-    display:flex;
-    gap:5px;
-    border-bottom:1px solid var(--line);
-    margin-bottom:22px;
-}
-
-.tab{
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:12px 15px;
-    border-bottom:2px solid transparent;
-}
-
-.tab.active{
-    color:white;
-    border-color:var(--blue);
-}
-
-/* =========================
-   PROCESSING
-========================= */
-
+/* PROCESSING */
 .processing{
-    max-width:700px;
-    margin:70px auto;
+    max-width:650px;
+    margin:100px auto;
     text-align:center;
 }
-
-.processing-circle{
-    width:95px;
-    height:95px;
-    margin:auto;
+.loader{
+    width:75px;
+    height:75px;
+    border:4px solid #1c2230;
+    border-top-color:#347cff;
     border-radius:50%;
-    border:3px solid #18202e;
-    border-top-color:var(--blue);
+    margin:auto;
     animation:spin 1s linear infinite;
 }
-
 @keyframes spin{
-    to{transform:rotate(360deg);}
+    to{
+        transform:rotate(360deg);
+    }
 }
-
 .processing h2{
     margin-top:25px;
 }
-
 .processing p{
-    color:var(--muted);
-    margin-top:9px;
+    color:#858c99;
+    margin-top:8px;
 }
-
 .progress{
     height:7px;
-    background:#161a22;
-    border-radius:999px;
+    background:#191d25;
+    border-radius:20px;
     overflow:hidden;
-    margin:25px 0;
+    margin-top:25px;
 }
-
 .progress-bar{
-    width:57%;
+    width:0%;
     height:100%;
-    background:var(--blue);
-    border-radius:999px;
+    background:#347cff;
     transition:.5s;
 }
-
-.steps{
-    text-align:left;
-    margin-top:25px;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:15px;
-    padding:18px;
-}
-
-.step{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:9px 0;
-    color:#707887;
-    font-size:13px;
-}
-
-.step.active{
-    color:white;
-}
-
-.step.done{
-    color:var(--green);
-}
-
-.step-dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:#303641;
-}
-
-.step.active .step-dot{
-    background:var(--blue);
-}
-
-.step.done .step-dot{
-    background:var(--green);
-}
-
-/* =========================
-   CLIPS
-========================= */
-
+/* CLIPS */
 .clip-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:17px;
+    gap:18px;
 }
-
-.clip-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:16px;
+.clip{
+    background:#101218;
+    border:1px solid #242832;
+    border-radius:15px;
     overflow:hidden;
 }
-
-.clip-thumb{
+.video{
     aspect-ratio:9/16;
-    max-height:330px;
+    background:linear-gradient(150deg,#18243a,#08090c);
     position:relative;
-    background:
-        linear-gradient(150deg,#172237,#07090c);
     display:flex;
     justify-content:center;
     align-items:center;
     overflow:hidden;
 }
-
-.clip-person{
-    height:90%;
-    width:62%;
+.person{
+    height:85%;
+    width:60%;
     background:
-        radial-gradient(circle at 50% 14%,#b67e61 0 10%,transparent 10.5%),
-        linear-gradient(#171a22 0 48%,#08090c 48%);
-    border-radius:50% 50% 8% 8%;
+        radial-gradient(circle at 50% 13%,#bd886b 0 10%,transparent 10.5%),
+        linear-gradient(#191c24 0 45%,#08090c 45%);
+    border-radius:50% 50% 10% 10%;
 }
-
-.clip-caption{
+.instagram{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:rgba(0,0,0,.45);
+    padding:5px 8px;
+    border-radius:5px;
+    font-size:10px;
+}
+.caption{
     position:absolute;
     bottom:35px;
-    width:92%;
+    left:5%;
+    width:90%;
     text-align:center;
+    font-size:17px;
     font-weight:900;
-    font-size:15px;
-    text-shadow:0 2px 8px #000;
+    text-shadow:0 3px 8px #000;
 }
-
-.clip-instagram{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    font-size:9px;
-    background:rgba(0,0,0,.45);
-    padding:4px 7px;
-    border-radius:5px;
-}
-
-.clip-body{
+.clip-info{
     padding:17px;
 }
-
-.clip-title{
-    font-weight:800;
-    line-height:1.35;
+.clip-info strong{
+    line-height:1.4;
 }
-
-.clip-meta{
+.meta{
     display:flex;
     justify-content:space-between;
-    gap:10px;
-    color:var(--muted);
+    color:#737b88;
     font-size:11px;
     margin-top:10px;
 }
-
 .score{
-    color:var(--green);
-    font-weight:900;
+    color:#38d27d;
 }
-
-.clip-actions{
+.clip-buttons{
     display:flex;
     gap:8px;
     margin-top:15px;
 }
-
-.clip-actions button{
+.clip-buttons button{
     flex:1;
 }
-
-/* =========================
-   EDITOR
-========================= */
-
+/* EDITOR */
 .editor{
     display:grid;
     grid-template-columns:1fr 340px;
     gap:20px;
 }
-
-.editor-stage{
-    background:#080a0e;
-    border:1px solid var(--line);
-    border-radius:18px;
+.preview{
+    background:#090b0f;
+    border:1px solid #242832;
+    border-radius:16px;
     padding:25px;
     display:flex;
-    flex-direction:column;
-    align-items:center;
+    justify-content:center;
 }
-
-.stage-video{
-    width:min(100%,360px);
+.preview-video{
+    width:350px;
+    max-width:100%;
     aspect-ratio:9/16;
-    background:
-        linear-gradient(150deg,#1a263a,#07080b);
-    border-radius:15px;
+    background:linear-gradient(150deg,#19263c,#08090c);
     position:relative;
     overflow:hidden;
+    border-radius:14px;
 }
-
-.stage-person{
+.preview-person{
     position:absolute;
     width:65%;
-    height:82%;
+    height:83%;
     left:18%;
-    top:10%;
-    border-radius:50% 50% 10% 10%;
+    top:8%;
     background:
-        radial-gradient(circle at 50% 14%,#bb8567 0 10%,transparent 10.5%),
-        linear-gradient(#171a22 0 45%,#090a0d 45%);
+        radial-gradient(circle at 50% 13%,#bd886b 0 10%,transparent 10.5%),
+        linear-gradient(#191c24 0 45%,#08090c 45%);
+    border-radius:50% 50% 10% 10%;
 }
-
-.stage-instagram{
+.preview-instagram{
     position:absolute;
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    background:rgba(0,0,0,.4);
+    background:rgba(0,0,0,.45);
     padding:6px 9px;
-    border-radius:6px;
-    font-size:12px;
-    font-weight:800;
+    border-radius:5px;
+    font-size:11px;
 }
-
-.stage-caption{
+.preview-caption{
     position:absolute;
-    bottom:60px;
-    width:90%;
+    bottom:55px;
     left:5%;
+    width:90%;
     text-align:center;
-    font-size:19px;
-    line-height:1.1;
+    font-size:20px;
     font-weight:900;
     text-shadow:0 3px 10px #000;
 }
-
-.timeline{
-    width:100%;
-    margin-top:22px;
-}
-
-.timeline-bar{
-    height:8px;
-    background:#252b36;
-    border-radius:10px;
-    position:relative;
-}
-
-.timeline-progress{
-    width:37%;
-    height:100%;
-    background:var(--blue);
-    border-radius:10px;
-}
-
-.timeline-time{
-    display:flex;
-    justify-content:space-between;
-    margin-top:7px;
-    color:var(--muted);
-    font-size:10px;
-}
-
 .editor-panel{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:18px;
+    background:#101218;
+    border:1px solid #242832;
+    border-radius:16px;
     padding:20px;
-    height:max-content;
 }
-
 .editor-section{
     padding:18px 0;
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid #252a33;
 }
-
 .editor-section:first-child{
     padding-top:0;
 }
-
 .editor-section:last-child{
-    border-bottom:0;
+    border:0;
 }
-
-.editor-section h4{
+.editor-section h3{
+    font-size:14px;
     margin-bottom:13px;
 }
-
-.option-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
+.switch{
+    width:40px;
+    height:23px;
+    background:#292e38;
+    border-radius:30px;
+    position:relative;
+    cursor:pointer;
 }
-
-.option{
-    padding:10px;
-    background:#0a0c11;
-    border:1px solid var(--line);
-    color:#aaa;
-    border-radius:8px;
-    text-align:center;
-    font-size:11px;
+.switch:after{
+    content:"";
+    position:absolute;
+    width:17px;
+    height:17px;
+    background:white;
+    border-radius:50%;
+    top:3px;
+    left:3px;
+    transition:.2s;
 }
-
-.option.selected{
-    color:white;
-    border-color:var(--blue);
-    background:rgba(47,128,255,.08);
+.switch.on{
+    background:#347cff;
 }
-
+.switch.on:after{
+    left:20px;
+}
 .switch-row{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:10px;
 }
-
-.switch{
-    width:39px;
-    height:22px;
-    background:#252b34;
-    border-radius:999px;
-    position:relative;
-    cursor:pointer;
-}
-
-.switch:after{
-    content:"";
-    position:absolute;
-    width:16px;
-    height:16px;
-    top:3px;
-    left:3px;
-    background:white;
-    border-radius:50%;
-    transition:.2s;
-}
-
-.switch.on{
-    background:var(--blue);
-}
-
-.switch.on:after{
-    left:20px;
-}
-
-/* =========================
-   EXPORT
-========================= */
-
-.resolution-grid{
+.resolutions{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
 }
-
 .resolution{
-    border:1px solid var(--line);
-    background:#090b10;
-    border-radius:11px;
-    padding:15px 10px;
+    background:#090b0f;
+    border:1px solid #292e38;
+    border-radius:9px;
+    padding:13px 5px;
     text-align:center;
     cursor:pointer;
 }
-
+.resolution.selected{
+    border-color:#347cff;
+    background:rgba(52,124,255,.1);
+}
 .resolution strong{
     display:block;
-    font-size:15px;
 }
-
-.resolution span{
-    display:block;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:4px;
+.resolution small{
+    color:#737b88;
 }
-
-.resolution.selected{
-    border-color:var(--blue);
-    background:rgba(47,128,255,.08);
-}
-
-.resolution.k4 strong{
-    color:#72a9ff;
-}
-
-.export-note{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.5;
-    margin-top:14px;
-}
-
-/* =========================
-   MODAL
-========================= */
-
+/* MODAL */
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.78);
+    background:rgba(0,0,0,.8);
     display:flex;
-    align-items:center;
     justify-content:center;
-    z-index:100;
+    align-items:center;
     padding:20px;
+    z-index:100;
 }
-
-.modal-card{
-    width:min(100%,620px);
-    background:#101218;
-    border:1px solid var(--line);
-    border-radius:20px;
+.modal-box{
+    width:500px;
+    max-width:100%;
+    background:#111319;
+    border:1px solid #282d38;
+    border-radius:18px;
     padding:25px;
 }
-
 .modal-head{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.close{
-    border:0;
-    background:#191d26;
-    color:#aaa;
-    width:32px;
-    height:32px;
-    border-radius:8px;
-}
-
-/* =========================
-   AUTH
-========================= */
-
-.auth{
-    min-height:100vh;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-        radial-gradient(circle at 50% 0%,rgba(47,128,255,.15),transparent 40%),
-        var(--bg);
-}
-
-.auth-card{
-    width:min(100%,420px);
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:30px;
-}
-
-.auth-logo{
-    margin-bottom:30px;
-}
-
-.auth-card h2{
-    margin-bottom:8px;
-}
-
-.auth-card>p{
-    color:var(--muted);
-    font-size:13px;
     margin-bottom:25px;
 }
-
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-    position:fixed;
-    right:22px;
-    bottom:22px;
-    z-index:300;
-    background:#171b23;
-    border:1px solid var(--line);
+.close{
+    width:32px;
+    height:32px;
+    background:#1a1e27;
     color:white;
-    border-radius:11px;
-    padding:13px 17px;
-    box-shadow:0 20px 50px rgba(0,0,0,.4);
-    display:none;
-    max-width:350px;
-    font-size:13px;
+    border:0;
+    border-radius:7px;
+    font-size:20px;
 }
-
-.toast.show{
-    display:block;
-    animation:toastIn .2s ease;
+.hidden{
+    display:none!important;
 }
-
-@keyframes toastIn{
-    from{
-        transform:translateY(10px);
-        opacity:0;
-    }
-    to{
-        transform:none;
-        opacity:1;
-    }
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:1050px){
-    .hero{
-        grid-template-columns:1fr;
-        text-align:center;
-    }
-
-    .hero p{
-        margin-left:auto;
-        margin-right:auto;
-    }
-
-    .hero-buttons{
-        justify-content:center;
-    }
-
-    .feature-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .dashboard-grid{
-        grid-template-columns:1fr;
-    }
-
-    .clip-grid{
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(max-width:800px){
+/* RESPONSIVE */
+@media(max-width:900px){
     .sidebar{
-        width:72px;
+        width:70px;
     }
-
-    .sidebar-logo{
-        padding-left:9px;
+    .logo{
+        font-size:14px;
+        padding-left:5px;
     }
-
-    .sidebar-logo .logo-text,
-    .nav-item span:not(.nav-icon),
-    .nav-label,
-    .sidebar-bottom .nav-item span:not(.nav-icon){
+    .menu-title{
         display:none;
     }
-
-    .nav-item{
-        justify-content:center;
+    .menu button{
+        text-align:center;
+        font-size:0;
     }
-
+    .menu-icon{
+        font-size:18px;
+    }
     .main{
-        margin-left:72px;
+        margin-left:70px;
+        width:calc(100% - 70px);
     }
-
     .stats{
         grid-template-columns:1fr 1fr;
     }
-
-    .form-grid{
+    .grid{
         grid-template-columns:1fr;
     }
-
-    .form-group.full{
-        grid-column:auto;
+    .clip-grid{
+        grid-template-columns:1fr 1fr;
     }
-
     .editor{
         grid-template-columns:1fr;
     }
 }
-
 @media(max-width:600px){
-    .topbar{
-        padding:0 18px;
-    }
-
-    .hero{
-        padding-top:60px;
-    }
-
-    .hero h1{
-        font-size:43px;
-        letter-spacing:-2.5px;
-    }
-
-    .hero p{
-        font-size:15px;
-    }
-
-    .feature-grid{
-        grid-template-columns:1fr;
-    }
-
     .page{
-        padding:20px 14px;
+        padding:20px 15px;
     }
-
-    .page-head{
-        align-items:flex-start;
+    .page-header{
         flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
     }
-
     .stats{
         grid-template-columns:1fr 1fr;
     }
-
-    .clip-grid{
+    .form-grid{
         grid-template-columns:1fr;
     }
-
-    .resolution-grid{
-        grid-template-columns:1fr 1fr;
+    .form-group.full{
+        grid-column:auto;
     }
-
-    .app-topbar{
-        padding:0 14px;
-    }
-
-    .sidebar{
-        width:58px;
-    }
-
-    .main{
-        margin-left:58px;
+    .clip-grid{
+        grid-template-columns:1fr;
     }
 }
 </style>
 </head>
-
 <body>
-
-<!-- =========================================================
-     LANDING PAGE
-========================================================= -->
-
-<div id="landing" class="landing">
-
-    <header class="topbar">
-
-        <div class="logo">
-            PREGA<span>.CUT</span>
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo">
+        PREGA<span>.CUT</span>
+    </div>
+    <div class="menu-title">
+        MENU
+    </div>
+    <div class="menu">
+        <button class="active" onclick="page('dashboard',this)">
+            <span class="menu-icon">⌂</span>
+            Dashboard
+        </button>
+        <button onclick="page('new',this)">
+            <span class="menu-icon">＋</span>
+            Nova pregação
+        </button>
+        <button onclick="page('sermons',this)">
+            <span class="menu-icon">▤</span>
+            Pregações
+        </button>
+        <button onclick="page('clips',this)">
+            <span class="menu-icon">▶</span>
+            Cortes
+        </button>
+        <button onclick="page('brand',this)">
+            <span class="menu-icon">◈</span>
+            Identidade visual
+        </button>
+        <button onclick="page('settings',this)">
+            <span class="menu-icon">⚙</span>
+            Configurações
+        </button>
+    </div>
+</aside>
+<!-- MAIN -->
+<main class="main">
+<header class="topbar">
+    <div class="user">
+        <span>Samuel</span>
+        <div class="avatar">
+            S
         </div>
-
-        <div class="top-actions">
-            <button class="btn btn-secondary" onclick="showAuth('login')">
-                Entrar
-            </button>
-
-            <button class="btn btn-primary" onclick="showAuth('register')">
-                Começar agora
-            </button>
-        </div>
-
-    </header>
-
-    <section class="hero">
-
+    </div>
+</header>
+<!-- DASHBOARD -->
+<section id="dashboard" class="page">
+    <div class="page-header">
         <div>
-
-            <div class="badge">
-                ✦ IA PARA PREGAÇÕES
-            </div>
-
-            <h1>
-                Transforme suas
-                <span>pregações</span>
-                em cortes.
-            </h1>
-
+            <h1>Dashboard</h1>
             <p>
-                Envie seu vídeo ou cole um link do YouTube.
-                O PREGA.CUT encontra os melhores momentos,
-                remove pausas desnecessárias, acompanha o pregador
-                e prepara o vídeo para suas redes sociais.
+                Transforme suas pregações em cortes.
             </p>
-
-            <div class="hero-buttons">
-
-                <button class="btn btn-primary" onclick="showAuth('register')">
-                    Começar agora →
-                </button>
-
-                <button class="btn btn-secondary" onclick="scrollToFeatures()">
-                    Conhecer a ferramenta
-                </button>
-
-            </div>
-
         </div>
-
-        <div class="preview-window">
-
-            <div class="preview-top">
-                <span>PREGA.CUT</span>
-                <span>● Processando</span>
+        <button class="btn primary"
+                onclick="page('new')">
+            + Nova pregação
+        </button>
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <small>Pregações analisadas</small>
+            <strong>12</strong>
+        </div>
+        <div class="stat">
+            <small>Cortes encontrados</small>
+            <strong>86</strong>
+        </div>
+        <div class="stat">
+            <small>Vídeos exportados</small>
+            <strong>64</strong>
+        </div>
+        <div class="stat">
+            <small>Minutos processados</small>
+            <strong>487</strong>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="card">
+            <h3>Últimas pregações</h3>
+            <div class="sermon">
+                <div>
+                    <strong>
+                        A Diferença entre Saul e Davi
+                    </strong>
+                    <small>
+                        58:42 • 12 cortes
+                    </small>
+                </div>
+                <span class="status">
+                    Concluída
+                </span>
             </div>
-
-            <div class="preview-video">
-
-                <div class="fake-preacher"></div>
-
-                <div class="preview-instagram">
+            <div class="sermon">
+                <div>
+                    <strong>
+                        Dependentes de Deus
+                    </strong>
+                    <small>
+                        47:21 • 8 cortes
+                    </small>
+                </div>
+                <span class="status">
+                    Concluída
+                </span>
+            </div>
+            <div class="sermon">
+                <div>
+                    <strong>
+                        Nas Rédeas da Vocação
+                    </strong>
+                    <small>
+                        51:08 • 10 cortes
+                    </small>
+                </div>
+                <span class="status">
+                    Concluída
+                </span>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Criar novo corte</h3>
+            <p style="color:#858c99;line-height:1.6;font-size:13px">
+                Envie uma pregação ou cole um link do
+                YouTube para encontrar automaticamente
+                os melhores momentos.
+            </p>
+            <button class="btn primary"
+                    style="width:100%;margin-top:20px"
+                    onclick="page('new')">
+                Começar agora →
+            </button>
+        </div>
+    </div>
+</section>
+<!-- NOVA PREGAÇÃO -->
+<section id="new" class="page hidden">
+    <div class="page-header">
+        <div>
+            <h1>Nova pregação</h1>
+            <p>
+                Envie o vídeo ou cole o link do YouTube.
+            </p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="source-tabs">
+            <button id="uploadTab"
+                    class="active"
+                    onclick="source('upload')">
+                Upload do vídeo
+            </button>
+            <button id="youtubeTab"
+                    onclick="source('youtube')">
+                Link do YouTube
+            </button>
+        </div>
+        <div id="uploadArea">
+            <div class="upload"
+                 onclick="document.getElementById('video').click()">
+                <div class="upload-icon">
+                    ↑
+                </div>
+                <strong>
+                    Arraste seu vídeo aqui
+                </strong>
+                <p>
+                    MP4, MOV ou WEBM
+                </p>
+                <button class="btn secondary"
+                        type="button">
+                    Selecionar vídeo
+                </button>
+                <input
+                    id="video"
+                    type="file"
+                    accept="video/*"
+                    style="display:none"
+                    onchange="fileSelected(this)">
+            </div>
+            <div id="selectedFile"
+                 style="color:#38d27d;font-size:12px;margin-top:10px">
+            </div>
+        </div>
+        <div id="youtubeArea" class="hidden">
+            <div class="form-group">
+                <label>
+                    LINK DO YOUTUBE
+                </label>
+                <input
+                    id="youtube"
+                    type="url"
+                    placeholder="https://www.youtube.com/watch?v=...">
+            </div>
+        </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>
+                    TÍTULO DA PREGAÇÃO
+                </label>
+                <input
+                    id="title"
+                    placeholder="Ex.: A diferença entre Saul e Davi">
+            </div>
+            <div class="form-group">
+                <label>
+                    QUANTIDADE DE CORTES
+                </label>
+                <select id="quantity">
+                    <option>5 cortes</option>
+                    <option selected>10 cortes</option>
+                    <option>20 cortes</option>
+                </select>
+            </div>
+        </div>
+        <div class="options">
+            <strong>
+                CONFIGURAÇÕES DA IA
+            </strong>
+            <label class="check">
+                <input
+                    id="max90"
+                    type="checkbox"
+                    checked>
+                <span>
+                    Gerar cortes de no máximo
+                    <strong>90 segundos</strong>.
+                </span>
+            </label>
+            <label class="check">
+                <input
+                    id="pauses"
+                    type="checkbox"
+                    checked>
+                <span>
+                    Remover pausas longas e silêncios
+                    desnecessários.
+                </span>
+            </label>
+            <label class="check">
+                <input
+                    id="tracking"
+                    type="checkbox"
+                    checked>
+                <span>
+                    Rastrear automaticamente o rosto
+                    do pregador.
+                </span>
+            </label>
+            <label class="check">
+                <input
+                    id="captions"
+                    type="checkbox">
+                <span>
+                    Gerar legendas automaticamente.
+                    <strong>Opcional.</strong>
+                </span>
+            </label>
+            <div class="form-group"
+                 style="margin-top:18px">
+                <label>
+                    INSTAGRAM NO VÍDEO
+                </label>
+                <input
+                    id="instagram"
+                    placeholder="@seuinstagram">
+            </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:22px">
+            <button class="btn primary"
+                    onclick="start()">
+                Analisar pregação →
+            </button>
+        </div>
+    </div>
+</section>
+<!-- PROCESSING -->
+<section id="processing" class="page hidden">
+    <div class="processing">
+        <div class="loader"></div>
+        <h2>
+            Analisando sua pregação...
+        </h2>
+        <p id="processText">
+            Preparando o vídeo.
+        </p>
+        <div class="progress">
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- CLIPS -->
+<section id="clips" class="page hidden">
+    <div class="page-header">
+        <div>
+            <h1>Seus cortes</h1>
+            <p>
+                Os melhores momentos encontrados pela IA.
+            </p>
+        </div>
+        <button class="btn primary"
+                onclick="page('new')">
+            + Nova pregação
+        </button>
+    </div>
+    <div class="clip-grid">
+        <div class="clip">
+            <div class="video">
+                <div class="person"></div>
+                <div class="instagram">
                     @seuinstagram
                 </div>
-
-                <div class="preview-caption">
-                    DEUS AINDA ESTÁ
-                    NO CONTROLE
+                <div class="caption">
+                    DEUS NÃO PERDEU
+                    O CONTROLE
                 </div>
-
             </div>
-
+            <div class="clip-info">
+                <strong>
+                    Deus não perdeu o controle da sua história
+                </strong>
+                <div class="meta">
+                    <span>
+                        00:42 — 01:31
+                    </span>
+                    <span class="score">
+                        96/100
+                    </span>
+                </div>
+                <div class="clip-buttons">
+                    <button class="btn secondary"
+                            onclick="page('editor')">
+                        Editar
+                    </button>
+                    <button class="btn primary"
+                            onclick="exportModal()">
+                        Exportar
+                    </button>
+                </div>
+            </div>
         </div>
-
-    </section>
-
-    <section id="features" class="features">
-
-        <h2 class="section-title">
-            Tudo que você precisa para seus cortes
-        </h2>
-
-        <p class="section-subtitle">
-            Do vídeo bruto ao conteúdo pronto para publicar.
-        </p>
-
-        <div class="feature-grid">
-
-            <div class="feature-card">
-                <div class="feature-icon">✦</div>
-                <h3>IA encontra os melhores momentos</h3>
-                <p>
-                    Analisa a mensagem e procura trechos com
-                    impacto, clareza, gancho e autonomia.
-                </p>
+        <div class="clip">
+            <div class="video">
+                <div class="person"></div>
+                <div class="instagram">
+                    @seuinstagram
+                </div>
+                <div class="caption">
+                    O PROCESSO NÃO É
+                    ABANDONO
+                </div>
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">◴</div>
-                <h3>Cortes de até 90 segundos</h3>
-                <p>
-                    A inteligência escolhe a duração ideal,
-                    sem ultrapassar 90 segundos.
-                </p>
+            <div class="clip-info">
+                <strong>
+                    O processo não significa abandono
+                </strong>
+                <div class="meta">
+                    <span>
+                        01:13 — 01:59
+                    </span>
+                    <span class="score">
+                        93/100
+                    </span>
+                </div>
+                <div class="clip-buttons">
+                    <button class="btn secondary"
+                            onclick="page('editor')">
+                        Editar
+                    </button>
+                    <button class="btn primary"
+                            onclick="exportModal()">
+                        Exportar
+                    </button>
+                </div>
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">⌁</div>
-                <h3>Remove pausas longas</h3>
-                <p>
-                    Elimina silêncios e intervalos desnecessários
-                    preservando pausas naturais da pregação.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">◎</div>
-                <h3>Rastreamento do pregador</h3>
-                <p>
-                    O enquadramento vertical acompanha o pregador
-                    automaticamente.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">@</div>
-                <h3>Seu Instagram no vídeo</h3>
-                <p>
-                    Adicione seu @ e escolha onde ele aparecerá
-                    no vídeo.
-                </p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">4K</div>
-                <h3>Exportação até 4K</h3>
-                <p>
-                    Prepare seus vídeos em 720p, Full HD, 2K
-                    ou 4K vertical.
-                </p>
-            </div>
-
         </div>
-
-    </section>
-
-</div>
-
-
-<!-- =========================================================
-     AUTH
-========================================================= -->
-
-<div id="auth" class="auth">
-
-    <div class="auth-card">
-
-        <div class="logo auth-logo">
-            PREGA<span>.CUT</span>
+        <div class="clip">
+            <div class="video">
+                <div class="person"></div>
+                <div class="instagram">
+                    @seuinstagram
+                </div>
+                <div class="caption">
+                    VOLTE PARA O ALTAR
+                </div>
+            </div>
+            <div class="clip-info">
+                <strong>
+                    Você precisa entender o valor do altar
+                </strong>
+                <div class="meta">
+                    <span>
+                        01:25 — 01:59
+                    </span>
+                    <span class="score">
+                        91/100
+                    </span>
+                </div>
+                <div class="clip-buttons">
+                    <button class="btn secondary"
+                            onclick="page('editor')">
+                        Editar
+                    </button>
+                    <button class="btn primary"
+                            onclick="exportModal()">
+                        Exportar
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <div id="loginForm">
-
-            <h2>Bem-vindo de volta.</h2>
-
-            <p>
-                Entre para continuar criando seus cortes.
-            </p>
-
-            <div class="form-group">
-                <label class="form-label">E-mail</label>
-                <input id="loginEmail" class="input" type="email"
-                       placeholder="voce@email.com">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Senha</label>
-                <input id="loginPassword" class="input" type="password"
-                       placeholder="••••••••">
-            </div>
-
-            <button class="btn btn-primary" style="width:100%"
-                    onclick="login()">
-                Entrar
-            </button>
-
-            <button class="btn btn-secondary"
-                    style="width:100%;margin-top:10px"
-                    onclick="showAuth('register')">
-                Criar uma conta
-            </button>
-
-            <button class="btn"
-                    style="width:100%;margin-top:10px;background:transparent;color:#777"
-                    onclick="backToLanding()">
-                Voltar
-            </button>
-
-        </div>
-
-
-        <div id="registerForm" class="hidden">
-
-            <h2>Crie sua conta.</h2>
-
-            <p>
-                Comece a transformar suas pregações em conteúdo.
-            </p>
-
-            <div class="form-group">
-                <label class="form-label">Nome</label>
-                <input id="registerName" class="input"
-                       placeholder="Seu nome">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">E-mail</label>
-                <input id="registerEmail" class="input"
-                       type="email"
-                       placeholder="voce@email.com">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Senha</label>
-                <input id="registerPassword" class="input"
-                       type="password"
-                       placeholder="••••••••">
-            </div>
-
-            <button class="btn btn-primary"
-                    style="width:100%"
-                    onclick="register()">
-                Criar minha conta
-            </button>
-
-            <button class="btn btn-secondary"
-                    style="width:100%;margin-top:10px"
-                    onclick="showAuth('login')">
-                Já tenho uma conta
-            </button>
-
-            <button class="btn"
-                    style="width:100%;margin-top:10px;background:transparent;color:#777"
-                    onclick="backToLanding()">
-                Voltar
-            </button>
-
-        </div>
-
     </div>
-
-</div>
-
-
-<!-- =========================================================
-     APPLICATION
-========================================================= -->
-
-<div id="app" class="app">
-
-    <aside class="sidebar">
-
-        <div class="sidebar-logo">
-            <div class="logo">
-                <span class="logo-text">PREGA</span><span>.CUT</span>
+</section>
+<!-- EDITOR -->
+<section id="editor" class="page hidden">
+    <div class="page-header">
+        <div>
+            <h1>Editar corte</h1>
+            <p>
+                Personalize o vídeo antes de exportar.
+            </p>
+        </div>
+        <button class="btn primary"
+                onclick="exportModal()">
+            Exportar vídeo
+        </button>
+    </div>
+    <div class="editor">
+        <div class="preview">
+            <div class="preview-video">
+                <div class="preview-person"></div>
+                <div
+                    id="previewInstagram"
+                    class="preview-instagram">
+                    @seuinstagram
+                </div>
+                <div
+                    id="previewCaption"
+                    class="preview-caption hidden">
+                    DEUS NÃO PERDEU
+                    O CONTROLE
+                </div>
             </div>
         </div>
-
-        <div class="nav-label">Menu</div>
-
-        <button class="nav-item active" onclick="showPage('dashboard',this)">
-            <span class="nav-icon">⌂</span>
-            <span>Dashboard</span>
-        </button>
-
-        <button class="nav-item" onclick="showPage('new-sermon',this)">
-            <span class="nav-icon">＋</span>
-            <span>Nova pregação</span>
-        </button>
-
-        <button class="nav-item" onclick="showPage('sermons',this)">
-            <span class="nav-icon">▤</span>
-            <span>Pregações</span>
-        </button>
-
-        <button class="nav-item" onclick="showPage('clips',this)">
-            <span class="nav-icon">▶</span>
-            <span>Cortes</span>
-        </button>
-
-        <button class="nav-item" onclick="showPage('brand',this)">
-            <span class="nav-icon">◈</span>
-            <span>Identidade visual</span>
-        </button>
-
-        <button class="nav-item" onclick="showPage('settings',this)">
-            <span class="nav-icon">⚙</span>
-            <span>Configurações</span>
-        </button>
-
-        <div class="sidebar-bottom">
-
-            <button class="nav-item" onclick="logout()">
-                <span class="nav-icon">↪</span>
-                <span>Sair</span>
-            </button>
-
-        </div>
-
-    </aside>
-
-
-    <main class="main">
-
-        <header class="app-topbar">
-
-            <div class="user-chip">
-
-                <span id="userNameTop">
-                    Samuel
-                </span>
-
-                <div class="avatar" id="avatar">
-                    S
+        <div class="editor-panel">
+            <div class="editor-section">
+                <h3>
+                    FORMATO
+                </h3>
+                <div class="resolutions">
+                    <div class="resolution selected">
+                        <strong>9:16</strong>
+                        <small>Instagram</small>
+                    </div>
+                    <div class="resolution">
+                        <strong>1:1</strong>
+                        <small>Feed</small>
+                    </div>
+                    <div class="resolution">
+                        <strong>16:9</strong>
+                        <small>YouTube</small>
+                    </div>
                 </div>
-
             </div>
-
-        </header>
-
-
-        <!-- ================= DASHBOARD ================= -->
-
-        <section id="page-dashboard" class="page">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Dashboard</h2>
-                    <p>
-                        Transforme sua próxima pregação em conteúdo.
-                    </p>
-                </div>
-
-                <button class="btn btn-primary"
-                        onclick="showPage('new-sermon')">
-                    + Nova pregação
-                </button>
-
-            </div>
-
-            <div class="stats">
-
-                <div class="stat">
-                    <small>Pregações analisadas</small>
-                    <strong>12</strong>
-                </div>
-
-                <div class="stat">
-                    <small>Cortes encontrados</small>
-                    <strong>86</strong>
-                </div>
-
-                <div class="stat">
-                    <small>Vídeos exportados</small>
-                    <strong>64</strong>
-                </div>
-
-                <div class="stat">
-                    <small>Minutos processados</small>
-                    <strong>487</strong>
-                </div>
-
-            </div>
-
-
-            <div class="dashboard-grid">
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Últimas pregações
+            <div class="editor-section">
+                <div class="switch-row">
+                    <h3>
+                        Rastreamento facial
+                    </h3>
+                    <div
+                        id="faceSwitch"
+                        class="switch on"
+                        onclick="toggle(this)">
                     </div>
-
-                    <div class="sermon-row">
-
-                        <div class="sermon-info">
-                            <strong>A Diferença entre Saul e Davi</strong>
-                            <span>58:42 • 12 cortes</span>
-                        </div>
-
-                        <div>
-                            <span class="status done">
-                                Concluída
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="sermon-row">
-
-                        <div class="sermon-info">
-                            <strong>Dependentes de Deus</strong>
-                            <span>47:21 • 8 cortes</span>
-                        </div>
-
-                        <div>
-                            <span class="status done">
-                                Concluída
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="sermon-row">
-
-                        <div class="sermon-info">
-                            <strong>Nas Rédeas da Vocação</strong>
-                            <span>51:08 • analisando</span>
-                        </div>
-
-                        <div>
-                            <span class="status processing">
-                                Processando
-                            </span>
-                        </div>
-
-                    </div>
-
                 </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-title">
-                        Atalho rápido
-                    </div>
-
-                    <p style="color:var(--muted);font-size:13px;line-height:1.6">
-                        Envie uma pregação ou cole um link do YouTube
-                        para começar.
-                    </p>
-
-                    <button class="btn btn-primary"
-                            style="width:100%;margin-top:18px"
-                            onclick="showPage('new-sermon')">
-                        Criar corte
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= NOVA PREGAÇÃO ================= -->
-
-        <section id="page-new-sermon" class="page hidden">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Nova pregação</h2>
-                    <p>
-                        Envie seu vídeo ou use um link do YouTube.
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="panel">
-
-                <div class="tabs">
-
-                    <button id="tabUpload"
-                            class="tab active"
-                            onclick="switchSource('upload')">
-                        Upload do vídeo
-                    </button>
-
-                    <button id="tabYoutube"
-                            class="tab"
-                            onclick="switchSource('youtube')">
-                        Link do YouTube
-                    </button>
-
-                </div>
-
-
-                <div id="uploadSource">
-
-                    <div id="uploadBox" class="upload-box"
-                         onclick="document.getElementById('videoFile').click()">
-
-                        <div class="upload-icon">
-                            ↑
-                        </div>
-
-                        <strong>
-                            Arraste seu vídeo aqui
-                        </strong>
-
-                        <p>
-                            MP4, MOV ou WEBM
-                        </p>
-
-                        <button type="button"
-                                class="btn btn-secondary">
-                            Selecionar vídeo
-                        </button>
-
-                        <input
-                            id="videoFile"
-                            type="file"
-                            accept="video/mp4,video/quicktime,video/webm"
-                            hidden
-                            onchange="handleVideoFile(this.files[0])">
-
-                    </div>
-
-                    <div id="fileInfo"
-                         class="hidden"
-                         style="margin-top:12px;padding:12px;background:#0b0d12;border:1px solid var(--line);border-radius:10px;font-size:12px">
-                    </div>
-
-                </div>
-
-
-                <div id="youtubeSource" class="hidden">
-
-                    <div class="form-group">
-
-                        <label class="form-label">
-                            Link do YouTube
-                        </label>
-
-                        <input
-                            id="youtubeUrl"
-                            class="input"
-                            placeholder="https://www.youtube.com/watch?v=...">
-
-                    </div>
-
-                </div>
-
-
-                <div class="or">
-                    CONFIGURAÇÕES
-                </div>
-
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label class="form-label">
-                            Título da pregação
-                        </label>
-
-                        <input
-                            id="sermonTitle"
-                            class="input"
-                            placeholder="Ex.: A diferença entre Saul e Davi">
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label class="form-label">
-                            Quantidade de cortes
-                        </label>
-
-                        <select id="clipQuantity"
-                                class="select">
-
-                            <option value="5">5 cortes</option>
-                            <option value="10" selected>10 cortes</option>
-                            <option value="20">20 cortes</option>
-                            <option value="custom">Personalizado</option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel"
-                     style="margin-top:10px;background:#0b0d12">
-
-                    <div class="panel-title">
-                        Regras dos cortes
-                    </div>
-
-                    <div class="check-row">
-                        <input type="checkbox" checked>
-                        <span>
-                            Criar cortes de no máximo <strong>90 segundos</strong>.
-                            A IA decide a duração ideal de cada trecho.
-                        </span>
-                    </div>
-
-                    <div class="check-row" style="margin-top:12px">
-                        <input id="removePauses" type="checkbox" checked>
-                        <span>
-                            Remover automaticamente pausas longas e silêncios
-                            desnecessários.
-                        </span>
-                    </div>
-
-                    <div style="margin-top:15px">
-
-                        <label class="form-label">
-                            Sensibilidade para remoção de pausas
-                        </label>
-
-                        <select id="pauseSensitivity"
-                                class="select">
-
-                            <option>Baixa</option>
-                            <option selected>Média</option>
-                            <option>Alta</option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel"
-                     style="margin-top:15px;background:#0b0d12">
-
-                    <div class="panel-title">
-                        Direitos de uso
-                    </div>
-
-                    <label class="check-row">
-
-                        <input id="rightsCheck"
-                               type="checkbox">
-
-                        <span>
-                            Declaro que possuo autorização para utilizar
-                            e editar este vídeo.
-                        </span>
-
-                    </label>
-
-                </div>
-
-
-                <div style="display:flex;justify-content:flex-end;margin-top:20px">
-
-                    <button class="btn btn-primary"
-                            onclick="startAnalysis()">
-                        Analisar pregação →
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= PROCESSAMENTO ================= -->
-
-        <section id="page-processing" class="page hidden">
-
-            <div class="processing">
-
-                <div class="processing-circle"></div>
-
-                <h2>
-                    Analisando sua pregação...
-                </h2>
-
-                <p id="processingMessage">
-                    Estamos encontrando os melhores momentos.
+                <p style="color:#737b88;font-size:11px;line-height:1.5">
+                    Mantém o rosto do pregador enquadrado
+                    automaticamente no vídeo vertical.
                 </p>
-
-                <div class="progress">
-                    <div id="progressBar"
-                         class="progress-bar"></div>
-                </div>
-
-                <div class="steps">
-
-                    <div id="step1" class="step done">
-                        <span class="step-dot"></span>
-                        Vídeo recebido
-                    </div>
-
-                    <div id="step2" class="step active">
-                        <span class="step-dot"></span>
-                        Preparando áudio
-                    </div>
-
-                    <div id="step3" class="step">
-                        <span class="step-dot"></span>
-                        Transcrevendo pregação
-                    </div>
-
-                    <div id="step4" class="step">
-                        <span class="step-dot"></span>
-                        Encontrando melhores momentos
-                    </div>
-
-                    <div id="step5" class="step">
-                        <span class="step-dot"></span>
-                        Preparando cortes
-                    </div>
-
-                </div>
-
             </div>
-
-        </section>
-
-
-        <!-- ================= CORTES ================= -->
-
-        <section id="page-clips" class="page hidden">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Seus cortes</h2>
-                    <p>
-                        Momentos encontrados na sua pregação.
-                    </p>
-                </div>
-
+            <div class="editor-section">
+                <h3>
+                    INSTAGRAM
+                </h3>
+                <input
+                    id="editInstagram"
+                    value="@seuinstagram"
+                    oninput="changeInstagram(this.value)">
             </div>
-
-
-            <div class="clip-grid">
-
-                <!-- CORTE 1 -->
-
-                <div class="clip-card">
-
-                    <div class="clip-thumb">
-
-                        <div class="clip-person"></div>
-
-                        <div class="clip-instagram">
-                            @seuinstagram
-                        </div>
-
-                        <div class="clip-caption">
-                            DEUS NÃO PERDEU
-                            O CONTROLE
-                        </div>
-
+            <div class="editor-section">
+                <div class="switch-row">
+                    <h3>
+                        Legendas
+                    </h3>
+                    <div
+                        id="captionSwitch"
+                        class="switch"
+                        onclick="captionToggle(this)">
                     </div>
-
-                    <div class="clip-body">
-
-                        <div class="clip-title">
-                            Deus não perdeu o controle da sua história
-                        </div>
-
-                        <div class="clip-meta">
-                            <span>00:42:18 — 00:43:07</span>
-                            <span class="score">96/100</span>
-                        </div>
-
-                        <div class="clip-actions">
-
-                            <button class="btn btn-secondary"
-                                    onclick="openEditor()">
-                                Editar
-                            </button>
-
-                            <button class="btn btn-primary"
-                                    onclick="openExport()">
-                                Exportar
-                            </button>
-
-                        </div>
-
-                    </div>
-
                 </div>
-
-
-                <!-- CORTE 2 -->
-
-                <div class="clip-card">
-
-                    <div class="clip-thumb">
-
-                        <div class="clip-person"></div>
-
-                        <div class="clip-instagram">
-                            @seuinstagram
-                        </div>
-
-                        <div class="clip-caption">
-                            O PROCESSO NÃO É
-                            ABANDONO
-                        </div>
-
-                    </div>
-
-                    <div class="clip-body">
-
-                        <div class="clip-title">
-                            O processo não significa que Deus te abandonou
-                        </div>
-
-                        <div class="clip-meta">
-                            <span>01:13:04 — 01:14:01</span>
-                            <span class="score">93/100</span>
-                        </div>
-
-                        <div class="clip-actions">
-
-                            <button class="btn btn-secondary"
-                                    onclick="openEditor()">
-                                Editar
-                            </button>
-
-                            <button class="btn btn-primary"
-                                    onclick="openExport()">
-                                Exportar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- CORTE 3 -->
-
-                <div class="clip-card">
-
-                    <div class="clip-thumb">
-
-                        <div class="clip-person"></div>
-
-                        <div class="clip-instagram">
-                            @seuinstagram
-                        </div>
-
-                        <div class="clip-caption">
-                            VOLTE PARA O ALTAR
-                        </div>
-
-                    </div>
-
-                    <div class="clip-body">
-
-                        <div class="clip-title">
-                            Você precisa entender o valor do altar
-                        </div>
-
-                        <div class="clip-meta">
-                            <span>01:25:31 — 01:26:22</span>
-                            <span class="score">91/100</span>
-                        </div>
-
-                        <div class="clip-actions">
-
-                            <button class="btn btn-secondary"
-                                    onclick="openEditor()">
-                                Editar
-                            </button>
-
-                            <button class="btn btn-primary"
-                                    onclick="openExport()">
-                                Exportar
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+                <p style="color:#737b88;font-size:11px;margin-top:7px">
+                    As legendas são opcionais.
+                </p>
             </div>
-
-        </section>
-
-
-        <!-- ================= EDITOR ================= -->
-
-        <section id="page-editor" class="page hidden">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Editar corte</h2>
-                    <p>
-                        Ajuste o visual antes de gerar o vídeo.
-                    </p>
+            <div class="editor-section">
+                <h3>
+                    QUALIDADE DE EXPORTAÇÃO
+                </h3>
+                <div class="resolutions">
+                    <div class="resolution">
+                        <strong>720p</strong>
+                        <small>720×1280</small>
+                    </div>
+                    <div class="resolution selected">
+                        <strong>1080p</strong>
+                        <small>1080×1920</small>
+                    </div>
+                    <div class="resolution">
+                        <strong>2K</strong>
+                        <small>1440×2560</small>
+                    </div>
+                    <div class="resolution">
+                        <strong>4K</strong>
+                        <small>2160×3840</small>
+                    </div>
                 </div>
-
-                <button class="btn btn-primary"
-                        onclick="openExport()">
-                    Exportar vídeo
-                </button>
-
             </div>
-
-
-            <div class="editor">
-
-                <div class="editor-stage">
-
-                    <div class="stage-video">
-
-                        <div class="stage-person"></div>
-
-                        <div id="stageInstagram"
-                             class="stage-instagram">
-                            @seuinstagram
-                        </div>
-
-                        <div id="stageCaption"
-                             class="stage-caption hidden">
-                            DEUS NÃO PERDEU
-                            O CONTROLE
-                        </div>
-
-                    </div>
-
-
-                    <div class="timeline">
-
-                        <div class="timeline-bar">
-
-                            <div class="timeline-progress"></div>
-
-                        </div>
-
-                        <div class="timeline-time">
-                            <span>00:00</span>
-                            <span>00:49</span>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="editor-panel">
-
-                    <div class="editor-section">
-
-                        <h4>Formato</h4>
-
-                        <div class="option-grid">
-
-                            <div class="option selected">
-                                9:16
-                            </div>
-
-                            <div class="option">
-                                1:1
-                            </div>
-
-                            <div class="option">
-                                16:9
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="editor-section">
-
-                        <div class="switch-row">
-
-                            <h4 style="margin:0">
-                                Rastreamento
-                            </h4>
-
-                            <div id="trackingSwitch"
-                                 class="switch on"
-                                 onclick="toggleSwitch(this)">
-                            </div>
-
-                        </div>
-
-                        <p style="font-size:11px;color:var(--muted)">
-                            Acompanha automaticamente o rosto
-                            do pregador no formato vertical.
-                        </p>
-
-                    </div>
-
-
-                    <div class="editor-section">
-
-                        <h4>Instagram</h4>
-
-                        <input id="instagramInput"
-                               class="input"
-                               value="@seuinstagram"
-                               placeholder="@seuinstagram"
-                               oninput="updateInstagram(this.value)">
-
-                        <p style="font-size:10px;color:var(--muted);margin-top:7px">
-                            O Instagram será exibido no centro do vídeo.
-                        </p>
-
-                    </div>
-
-
-                    <div class="editor-section">
-
-                        <div class="switch-row">
-
-                            <h4 style="margin:0">
-                                Legendas
-                            </h4>
-
-                            <div id="captionSwitch"
-                                 class="switch"
-                                 onclick="toggleCaption(this)">
-                            </div>
-
-                        </div>
-
-                        <div id="captionOptions"
-                             class="hidden">
-
-                            <div class="option-grid">
-
-                                <div class="option selected">
-                                    Impacto
-                                </div>
-
-                                <div class="option">
-                                    Clássica
-                                </div>
-
-                                <div class="option">
-                                    Minimalista
-                                </div>
-
-                                <div class="option">
-                                    Palavra destacada
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="editor-section">
-
-                        <div class="switch-row">
-
-                            <h4 style="margin:0">
-                                Headline
-                            </h4>
-
-                            <div id="headlineSwitch"
-                                 class="switch"
-                                 onclick="toggleSwitch(this)">
-                            </div>
-
-                        </div>
-
-                        <input class="input"
-                               style="margin-top:8px"
-                               placeholder="Escreva sua headline">
-
-                    </div>
-
-
-                    <div class="editor-section">
-
-                        <h4>Identidade visual</h4>
-
-                        <select class="select">
-
-                            <option>Minha identidade padrão</option>
-                            <option>IEVAD</option>
-                            <option>Samuel Menezes</option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= PREGAÇÕES ================= -->
-
-        <section id="page-sermons" class="page hidden">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Minhas pregações</h2>
-                    <p>
-                        Biblioteca das suas mensagens.
-                    </p>
-                </div>
-
-                <button class="btn btn-primary"
-                        onclick="showPage('new-sermon')">
-                    + Nova pregação
-                </button>
-
-            </div>
-
-            <div class="panel">
-
-                <div class="sermon-row">
-                    <div class="sermon-info">
-                        <strong>A Diferença entre Saul e Davi</strong>
-                        <span>58:42 • 12 cortes • Upload</span>
-                    </div>
-                    <span class="status done">Concluída</span>
-                </div>
-
-                <div class="sermon-row">
-                    <div class="sermon-info">
-                        <strong>Dependentes de Deus</strong>
-                        <span>47:21 • 8 cortes • YouTube</span>
-                    </div>
-                    <span class="status done">Concluída</span>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= BRAND ================= -->
-
-        <section id="page-brand" class="page hidden">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Identidade visual</h2>
-                    <p>
-                        Defina como seus cortes serão apresentados.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="panel">
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            Nome da identidade
-                        </label>
-
-                        <input class="input"
-                               value="Samuel Menezes">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            Instagram padrão
-                        </label>
-
-                        <input class="input"
-                               value="@seuinstagram">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            Cor principal
-                        </label>
-
-                        <input class="input"
-                               type="color"
-                               value="#2f80ff"
-                               style="height:46px;padding:5px">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">
-                            Cor secundária
-                        </label>
-
-                        <input class="input"
-                               type="color"
-                               value="#ffffff"
-                               style="height:46px;padding:5px">
-                    </div>
-
-                </div>
-
-                <div style="display:flex;justify-content:flex-end">
-
-                    <button class="btn btn-primary"
-                            onclick="toast('Identidade visual salva.')">
-                        Salvar identidade
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= SETTINGS ================= -->
-
-        <section id="page-settings" class="page hidden">
-
-            <div class="page-head">
-
-                <div>
-                    <h2>Configurações</h2>
-                    <p>
-                        Gerencie sua conta e preferências.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="panel">
-
-                <div class="form-group">
-
-                    <label class="form-label">
-                        Nome
-                    </label>
-
-                    <input class="input"
-                           value="Samuel">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label class="form-label">
-                        E-mail
-                    </label>
-
-                    <input class="input"
-                           value="samuel@email.com">
-
-                </div>
-
-                <button class="btn btn-primary"
-                        onclick="toast('Configurações salvas.')">
-                    Salvar alterações
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-<!-- =========================================================
-     EXPORT MODAL
-========================================================= -->
-
-<div id="exportModal" class="modal hidden">
-
-    <div class="modal-card">
-
-        <div class="modal-head">
-
+        </div>
+    </div>
+</section>
+<!-- PREGAÇÕES -->
+<section id="sermons" class="page hidden">
+    <div class="page-header">
+        <div>
+            <h1>Pregações</h1>
+            <p>
+                Sua biblioteca de vídeos.
+            </p>
+        </div>
+        <button class="btn primary"
+                onclick="page('new')">
+            + Nova pregação
+        </button>
+    </div>
+    <div class="card">
+        <div class="sermon">
             <div>
-                <h3>Exportar vídeo</h3>
-                <p style="color:var(--muted);font-size:12px;margin-top:5px">
-                    Escolha a qualidade do seu corte.
+                <strong>
+                    A Diferença entre Saul e Davi
+                </strong>
+                <small>
+                    58:42 • 12 cortes
+                </small>
+            </div>
+            <span class="status">
+                Concluída
+            </span>
+        </div>
+        <div class="sermon">
+            <div>
+                <strong>
+                    Dependentes de Deus
+                </strong>
+                <small>
+                    47:21 • 8 cortes
+                </small>
+            </div>
+            <span class="status">
+                Concluída
+            </span>
+        </div>
+    </div>
+</section>
+<!-- BRAND -->
+<section id="brand" class="page hidden">
+    <div class="page-header">
+        <div>
+            <h1>Identidade visual</h1>
+            <p>
+                Configure o padrão visual dos seus cortes.
+            </p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>
+                    NOME
+                </label>
+                <input value="Samuel Menezes">
+            </div>
+            <div class="form-group">
+                <label>
+                    INSTAGRAM
+                </label>
+                <input value="@seuinstagram">
+            </div>
+            <div class="form-group">
+                <label>
+                    COR PRINCIPAL
+                </label>
+                <input
+                    type="color"
+                    value="#347cff"
+                    style="height:45px;padding:4px">
+            </div>
+        </div>
+        <button
+            class="btn primary"
+            onclick="alert('Identidade visual salva!')">
+            Salvar identidade
+        </button>
+    </div>
+</section>
+<!-- SETTINGS -->
+<section id="settings" class="page hidden">
+    <div class="page-header">
+        <div>
+            <h1>Configurações</h1>
+            <p>
+                Configurações da sua conta.
+            </p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="form-group">
+            <label>
+                NOME
+            </label>
+            <input value="Samuel">
+        </div>
+        <div class="form-group">
+            <label>
+                E-MAIL
+            </label>
+            <input value="samuel@email.com">
+        </div>
+        <button
+            class="btn primary"
+            onclick="alert('Configurações salvas!')">
+            Salvar alterações
+        </button>
+    </div>
+</section>
+</main>
+</div>
+<!-- EXPORT MODAL -->
+<div id="exportModal"
+     class="modal hidden">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div>
+                <h2>
+                    Exportar vídeo
+                </h2>
+                <p style="color:#858c99;margin-top:5px;font-size:12px">
+                    Escolha a resolução do seu corte.
                 </p>
             </div>
-
-            <button class="close"
-                    onclick="closeExport()">
+            <button
+                class="close"
+                onclick="closeModal()">
                 ×
             </button>
-
         </div>
-
-
-        <div style="margin-bottom:18px">
-
-            <div class="form-label">
-                RESOLUÇÃO
+        <div class="resolutions">
+            <div
+                class="resolution"
+                onclick="selectQuality(this,'720p')">
+                <strong>720p</strong>
+                <small>
+                    720 × 1280
+                </small>
             </div>
-
-            <div class="resolution-grid">
-
-                <div class="resolution"
-                     onclick="selectResolution(this,'720p')">
-
-                    <strong>720p</strong>
-                    <span>720 × 1280</span>
-
-                </div>
-
-                <div class="resolution selected"
-                     onclick="selectResolution(this,'1080p')">
-
-                    <strong>1080p</strong>
-                    <span>1080 × 1920</span>
-
-                </div>
-
-                <div class="resolution"
-                     onclick="selectResolution(this,'2K')">
-
-                    <strong>2K</strong>
-                    <span>1440 × 2560</span>
-
-                </div>
-
-                <div class="resolution k4"
-                     onclick="selectResolution(this,'4K')">
-
-                    <strong>4K</strong>
-                    <span>2160 × 3840</span>
-
-                </div>
-
+            <div
+                class="resolution selected"
+                onclick="selectQuality(this,'1080p')">
+                <strong>1080p</strong>
+                <small>
+                    1080 × 1920
+                </small>
             </div>
-
+            <div
+                class="resolution"
+                onclick="selectQuality(this,'2K')">
+                <strong>2K</strong>
+                <small>
+                    1440 × 2560
+                </small>
+            </div>
+            <div
+                class="resolution"
+                onclick="selectQuality(this,'4K')">
+                <strong>4K</strong>
+                <small>
+                    2160 × 3840
+                </small>
+            </div>
         </div>
-
-
-        <div class="panel"
-             style="background:#0b0d12;margin-bottom:18px">
-
-            <div style="display:flex;justify-content:space-between">
-
-                <span style="color:var(--muted);font-size:12px">
-                    Formato
-                </span>
-
-                <strong style="font-size:12px">
-                    MP4
-                </strong>
-
-            </div>
-
-            <div style="display:flex;justify-content:space-between;margin-top:10px">
-
-                <span style="color:var(--muted);font-size:12px">
-                    Proporção
-                </span>
-
-                <strong style="font-size:12px">
-                    9:16
-                </strong>
-
-            </div>
-
-            <div style="display:flex;justify-content:space-between;margin-top:10px">
-
-                <span style="color:var(--muted);font-size:12px">
-                    Codec
-                </span>
-
-                <strong style="font-size:12px">
-                    H.264
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <p class="export-note">
-            4K vertical utiliza resolução 2160 × 3840.
-            A geração real do arquivo depende do serviço de
-            renderização de vídeo conectado ao sistema.
-        </p>
-
-
-        <button id="exportButton"
-                class="btn btn-primary"
-                style="width:100%;margin-top:18px"
-                onclick="generateExport()">
-
-            Gerar vídeo em 1080p
-
+        <button
+            id="downloadButton"
+            class="btn primary"
+            style="width:100%;margin-top:20px"
+            onclick="download()">
+            Baixar vídeo em 1080p
         </button>
-
+        <p style="color:#666;font-size:11px;line-height:1.5;margin-top:12px">
+            A opção 4K corresponde à exportação vertical
+            em 2160 × 3840. O processamento real do arquivo
+            será conectado ao backend de vídeo.
+        </p>
     </div>
-
 </div>
-
-
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div id="toast" class="toast"></div>
-
-
 <script>
-
-/* =========================================================
-   ESTADO
-========================================================= */
-
-let currentUser = null;
-let currentSource = "upload";
-let selectedResolution = "1080p";
-let uploadedFile = null;
-
-
-/* =========================================================
-   UTILIDADES
-========================================================= */
-
-function toast(message){
-
-    const el = document.getElementById("toast");
-
-    el.textContent = message;
-    el.classList.add("show");
-
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(()=>{
-        el.classList.remove("show");
-    },3200);
-}
-
-
-/* =========================================================
-   LANDING
-========================================================= */
-
-function scrollToFeatures(){
-
-    document.getElementById("features")
-        .scrollIntoView({behavior:"smooth"});
-}
-
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-function showAuth(type){
-
-    document.getElementById("landing").style.display = "none";
-    document.getElementById("auth").style.display = "flex";
-
-    if(type === "login"){
-
-        document.getElementById("loginForm")
-            .classList.remove("hidden");
-
-        document.getElementById("registerForm")
-            .classList.add("hidden");
-
-    }else{
-
-        document.getElementById("loginForm")
-            .classList.add("hidden");
-
-        document.getElementById("registerForm")
-            .classList.remove("hidden");
-
-    }
-}
-
-
-function backToLanding(){
-
-    document.getElementById("auth").style.display = "none";
-    document.getElementById("landing").style.display = "block";
-
-}
-
-
-function register(){
-
-    const name =
-        document.getElementById("registerName").value.trim();
-
-    const email =
-        document.getElementById("registerEmail").value.trim();
-
-    const password =
-        document.getElementById("registerPassword").value;
-
-    if(!name || !email || !password){
-
-        toast("Preencha todos os campos.");
-
-        return;
-    }
-
-    currentUser = {
-        name,
-        email
-    };
-
-    localStorage.setItem(
-        "pregacut_user",
-        JSON.stringify(currentUser)
-    );
-
-    openApp();
-
-}
-
-
-function login(){
-
-    const email =
-        document.getElementById("loginEmail").value.trim();
-
-    const password =
-        document.getElementById("loginPassword").value;
-
-    if(!email || !password){
-
-        toast("Informe e-mail e senha.");
-
-        return;
-    }
-
-    currentUser = {
-        name:"Samuel",
-        email
-    };
-
-    localStorage.setItem(
-        "pregacut_user",
-        JSON.stringify(currentUser)
-    );
-
-    openApp();
-
-}
-
-
-function logout(){
-
-    localStorage.removeItem("pregacut_user");
-
-    currentUser = null;
-
-    document.getElementById("app").style.display = "none";
-    document.getElementById("landing").style.display = "block";
-
-}
-
-
-/* =========================================================
-   APP
-========================================================= */
-
-function openApp(){
-
-    document.getElementById("landing").style.display = "none";
-    document.getElementById("auth").style.display = "none";
-    document.getElementById("app").style.display = "block";
-
-    if(currentUser){
-
-        document.getElementById("userNameTop").textContent =
-            currentUser.name;
-
-        document.getElementById("avatar").textContent =
-            currentUser.name.charAt(0).toUpperCase();
-
-    }
-
-    showPage("dashboard");
-
-}
-
-
-function showPage(page, navButton){
-
-    const pages =
-        document.querySelectorAll("[id^='page-']");
-
-    pages.forEach(p=>{
-        p.classList.add("hidden");
+/* =========================
+   PAGE NAVIGATION
+========================= */
+function page(name,button){
+    const pages = [
+        "dashboard",
+        "new",
+        "processing",
+        "clips",
+        "editor",
+        "sermons",
+        "brand",
+        "settings"
+    ];
+    pages.forEach(function(id){
+        const element =
+            document.getElementById(id);
+        if(element){
+            element.classList.add("hidden");
+        }
     });
-
     const target =
-        document.getElementById("page-" + page);
-
+        document.getElementById(name);
     if(target){
         target.classList.remove("hidden");
     }
-
-    if(navButton){
-
-        document.querySelectorAll(".nav-item")
-            .forEach(item=>item.classList.remove("active"));
-
-        navButton.classList.add("active");
-
+    if(button){
+        document
+            .querySelectorAll(".menu button")
+            .forEach(function(item){
+                item.classList.remove("active");
+            });
+        button.classList.add("active");
     }
-
 }
-
-
-/* =========================================================
+/* =========================
    SOURCE
-========================================================= */
-
-function switchSource(source){
-
-    currentSource = source;
-
+========================= */
+function source(type){
     const upload =
-        document.getElementById("uploadSource");
-
+        document.getElementById("uploadArea");
     const youtube =
-        document.getElementById("youtubeSource");
-
+        document.getElementById("youtubeArea");
     const uploadTab =
-        document.getElementById("tabUpload");
-
+        document.getElementById("uploadTab");
     const youtubeTab =
-        document.getElementById("tabYoutube");
-
-    if(source === "upload"){
-
+        document.getElementById("youtubeTab");
+    if(type === "upload"){
         upload.classList.remove("hidden");
         youtube.classList.add("hidden");
-
         uploadTab.classList.add("active");
         youtubeTab.classList.remove("active");
-
     }else{
-
         upload.classList.add("hidden");
         youtube.classList.remove("hidden");
-
         uploadTab.classList.remove("active");
         youtubeTab.classList.add("active");
-
     }
-
 }
-
-
-/* =========================================================
-   UPLOAD
-========================================================= */
-
-function handleVideoFile(file){
-
-    if(!file) return;
-
-    uploadedFile = file;
-
-    const allowed = [
-        "video/mp4",
-        "video/quicktime",
-        "video/webm"
-    ];
-
-    if(!allowed.includes(file.type)){
-
-        toast("Formato de vídeo não suportado.");
-
+/* =========================
+   FILE
+========================= */
+function fileSelected(input){
+    const file = input.files[0];
+    if(!file){
         return;
     }
-
-    const info =
-        document.getElementById("fileInfo");
-
-    const size =
-        (file.size / (1024 * 1024)).toFixed(1);
-
-    info.innerHTML = `
-        <strong>${escapeHtml(file.name)}</strong>
-        <br>
-        <span style="color:var(--muted)">
-            ${size} MB • pronto para processamento
-        </span>
-    `;
-
-    info.classList.remove("hidden");
-
+    document.getElementById("selectedFile").textContent =
+        "✓ " + file.name + " selecionado";
 }
-
-
-function escapeHtml(text){
-
-    const div = document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================================================
-   DRAG DROP
-========================================================= */
-
-const uploadBox =
-    document.getElementById("uploadBox");
-
-uploadBox.addEventListener("dragover",(event)=>{
-
-    event.preventDefault();
-
-    uploadBox.classList.add("drag");
-
-});
-
-uploadBox.addEventListener("dragleave",()=>{
-
-    uploadBox.classList.remove("drag");
-
-});
-
-uploadBox.addEventListener("drop",(event)=>{
-
-    event.preventDefault();
-
-    uploadBox.classList.remove("drag");
-
-    const file =
-        event.dataTransfer.files[0];
-
-    handleVideoFile(file);
-
-});
-
-
-/* =========================================================
-   ANALYSIS
-========================================================= */
-
-function startAnalysis(){
-
+/* =========================
+   START PROCESS
+========================= */
+function start(){
     const title =
-        document.getElementById("sermonTitle").value.trim();
-
-    const rights =
-        document.getElementById("rightsCheck").checked;
-
+        document.getElementById("title").value.trim();
     if(!title){
-
-        toast("Digite o título da pregação.");
-
+        alert("Digite o título da pregação.");
         return;
     }
-
-    if(currentSource === "upload" && !uploadedFile){
-
-        toast("Selecione um vídeo.");
-
-        return;
-    }
-
-    if(currentSource === "youtube"){
-
-        const url =
-            document.getElementById("youtubeUrl").value.trim();
-
-        if(!url){
-
-            toast("Cole o link do YouTube.");
-
-            return;
-        }
-
-        if(!isYoutubeUrl(url)){
-
-            toast("Digite um link válido do YouTube.");
-
-            return;
-        }
-
-    }
-
-    if(!rights){
-
-        toast("Confirme que você possui autorização para utilizar o vídeo.");
-
-        return;
-    }
-
-    showPage("processing");
-
-    simulateProcessing();
-
-}
-
-
-function isYoutubeUrl(url){
-
-    try{
-
-        const parsed = new URL(url);
-
-        return (
-            parsed.hostname.includes("youtube.com") ||
-            parsed.hostname.includes("youtu.be")
-        );
-
-    }catch{
-
-        return false;
-
-    }
-
-}
-
-
-/* =========================================================
-   PROCESSING DEMO
-========================================================= */
-
-function simulateProcessing(){
-
+    page("processing");
+    let progress = 0;
     const bar =
         document.getElementById("progressBar");
-
-    const message =
-        document.getElementById("processingMessage");
-
-    const steps = [
-        document.getElementById("step1"),
-        document.getElementById("step2"),
-        document.getElementById("step3"),
-        document.getElementById("step4"),
-        document.getElementById("step5")
-    ];
-
-    let progress = 10;
-    let stage = 1;
-
-    bar.style.width = progress + "%";
-
+    const text =
+        document.getElementById("processText");
     const messages = [
-        "Preparando áudio...",
+        "Preparando o vídeo...",
+        "Extraindo o áudio...",
         "Transcrevendo a pregação...",
-        "Analisando a mensagem...",
-        "Encontrando os melhores momentos...",
-        "Preparando seus cortes..."
+        "Analisando os melhores momentos...",
+        "Identificando trechos com potencial viral...",
+        "Removendo pausas longas...",
+        "Preparando enquadramento vertical...",
+        "Cortes encontrados!"
     ];
-
-    const timer = setInterval(()=>{
-
-        progress += 18;
-
-        if(progress > 100){
-            progress = 100;
-        }
-
-        bar.style.width = progress + "%";
-
-        if(stage < steps.length){
-
-            steps[stage-1].classList.remove("active");
-            steps[stage-1].classList.add("done");
-
-            steps[stage].classList.add("active");
-
-            message.textContent =
-                messages[stage];
-
-            stage++;
-
-        }
-
-        if(progress >= 100){
-
-            clearInterval(timer);
-
-            steps.forEach(s=>{
-                s.classList.remove("active");
-                s.classList.add("done");
-            });
-
-            setTimeout(()=>{
-
-                showPage("clips");
-
-                toast("Análise concluída. Encontramos 10 cortes.");
-
-            },700);
-
-        }
-
-    },800);
-
+    let index = 0;
+    const timer =
+        setInterval(function(){
+            progress += 14;
+            if(progress > 100){
+                progress = 100;
+            }
+            bar.style.width =
+                progress + "%";
+            if(index < messages.length){
+                text.textContent =
+                    messages[index];
+                index++;
+            }
+            if(progress >= 100){
+                clearInterval(timer);
+                setTimeout(function(){
+                    page("clips");
+                },700);
+            }
+        },700);
 }
-
-
-/* =========================================================
+/* =========================
    EDITOR
-========================================================= */
-
-function openEditor(){
-
-    showPage("editor");
-
-}
-
-
-function toggleSwitch(element){
-
+========================= */
+function toggle(element){
     element.classList.toggle("on");
-
 }
-
-
-function toggleCaption(element){
-
+function captionToggle(element){
     element.classList.toggle("on");
-
     document
-        .getElementById("captionOptions")
+        .getElementById("previewCaption")
         .classList.toggle(
             "hidden",
             !element.classList.contains("on")
         );
-
-    document
-        .getElementById("stageCaption")
-        .classList.toggle(
-            "hidden",
-            !element.classList.contains("on")
-        );
-
 }
-
-
-function updateInstagram(value){
-
+function changeInstagram(value){
     document
-        .getElementById("stageInstagram")
+        .getElementById("previewInstagram")
         .textContent =
             value || "";
-
 }
-
-
-/* =========================================================
+/* =========================
    EXPORT
-========================================================= */
-
-function openExport(){
-
+========================= */
+let selectedQuality = "1080p";
+function exportModal(){
     document
         .getElementById("exportModal")
         .classList.remove("hidden");
-
 }
-
-
-function closeExport(){
-
+function closeModal(){
     document
         .getElementById("exportModal")
         .classList.add("hidden");
-
 }
-
-
-function selectResolution(element,resolution){
-
+function selectQuality(element,quality){
     document
-        .querySelectorAll(".resolution")
-        .forEach(item=>{
+        .querySelectorAll("#exportModal .resolution")
+        .forEach(function(item){
             item.classList.remove("selected");
         });
-
     element.classList.add("selected");
-
-    selectedResolution = resolution;
-
-    const button =
-        document.getElementById("exportButton");
-
-    button.textContent =
-        "Gerar vídeo em " + resolution;
-
+    selectedQuality =
+        quality;
+    document
+        .getElementById("downloadButton")
+        .textContent =
+            "Baixar vídeo em " + quality;
 }
-
-
-function generateExport(){
-
-    const button =
-        document.getElementById("exportButton");
-
-    button.disabled = true;
-
-    button.textContent =
-        "Preparando vídeo...";
-
-    setTimeout(()=>{
-
-        button.disabled = false;
-
-        button.textContent =
-            "Baixar vídeo em " + selectedResolution;
-
-        button.onclick = function(){
-
-            downloadPlaceholder();
-
-        };
-
-        toast(
-            "Renderização preparada. Conecte o VideoProcessingService para gerar o arquivo real."
-        );
-
-    },1400);
-
-}
-
-
-function downloadPlaceholder(){
-
-    toast(
-        "O download real será disponibilizado após conectar o renderizador de vídeo."
+function download(){
+    alert(
+        "A exportação em " +
+        selectedQuality +
+        " está pronta para ser conectada ao renderizador de vídeo."
     );
-
 }
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
-(function init(){
-
-    const saved =
-        localStorage.getItem("pregacut_user");
-
-    if(saved){
-
-        try{
-
-            currentUser =
-                JSON.parse(saved);
-
-            openApp();
-
-        }catch{
-
-            localStorage.removeItem("pregacut_user");
-
+/* =========================
+   CLOSE MODAL CLICK OUTSIDE
+========================= */
+document
+    .getElementById("exportModal")
+    .addEventListener("click",function(event){
+        if(event.target === this){
+            closeModal();
         }
-
-    }
-
-})();
-
+    });
 </script>
-
 </body>
 </html>
